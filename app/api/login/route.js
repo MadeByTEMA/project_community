@@ -1,14 +1,15 @@
 import pool from '@/lib/db';
 import jwt from 'jsonwebtoken';
+import { withLogging } from "@/lib/withLogging";
+import { withErrorHandling } from "@/lib/withErrorHandling";
 
-export async function POST(req) {
+export async function handler(req) {
   const { id, password } = await req.json();
   const [ user ] = await pool.query('SELECT * FROM users WHERE id = ? AND password = ?', [id, password]);
     
   if (user.length === 0) {
     return new Response(JSON.stringify({ error: 'Invalid credentials' }), { status: 401 });
   }
-  console.log(user)
   const token = jwt.sign(
     {
       sub: user[0].id,
@@ -21,8 +22,7 @@ export async function POST(req) {
     process.env.JWT_SECRET,
     { expiresIn: '1h' }
   );
-  console.log(token);
-  console.log(process.env.NODE_ENV);
+
   return new Response(JSON.stringify({ token }), {
       status: 200,
       headers: {
@@ -31,3 +31,6 @@ export async function POST(req) {
     }
   );
 }
+
+export const GET = withLogging(withErrorHandling(handler));
+export const POST = withLogging(withErrorHandling(handler));

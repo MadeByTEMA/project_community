@@ -1,0 +1,2 @@
+{"timestamp":"2025-01-30 16:05:47","level":"info","message":"API Request","method":"POST","url":"/api/login","headers":{}}
+{"timestamp":"2025-01-30 16:05:47","level":"info","message":"API Response","method":"POST","url":"/api/login","status":200,"duration":"10ms"}
