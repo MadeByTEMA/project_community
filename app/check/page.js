@@ -51,14 +51,17 @@ export default function CheckPage() {
 
       <div style={{ marginTop: '20px' }}>
         {/* 버튼 3개 추가 */}
-        <button onClick={() => navigate('/admin/boardManage')} style={{ marginRight: '10px' }}>
-          Go to Admin Board Management
+        <button onClick={() => navigate('/login')} style={{ marginRight: '10px' }}>
+          Login
         </button>
-        <button onClick={() => navigate('/board')} style={{ marginRight: '10px' }}>
-          Go to Board
+        <button onClick={() => navigate('/admin/board')} style={{ marginRight: '10px' }}>
+          Admin
         </button>
-        <button onClick={() => navigate('/board/manage')}>
-          Go to Board Management
+        <button onClick={() => navigate('/board/manage')} style={{ marginRight: '10px' }}>
+          Manage
+        </button>
+        <button onClick={() => navigate('/board')}>
+          User
         </button>
       </div>
     </div>

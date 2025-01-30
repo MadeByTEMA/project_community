@@ -8,7 +8,7 @@ export async function POST(req) {
   if (user.length === 0) {
     return new Response(JSON.stringify({ error: 'Invalid credentials' }), { status: 401 });
   }
-  
+  console.log(user)
   const token = jwt.sign(
     {
       sub: user[0].id,
@@ -22,8 +22,12 @@ export async function POST(req) {
     { expiresIn: '1h' }
   );
   console.log(token);
+  console.log(process.env.NODE_ENV);
   return new Response(JSON.stringify({ token }), {
-    status: 200,
-    headers: { 'Set-Cookie': `auth_token=${token}; HttpOnly; Path=/` },
-  });
+      status: 200,
+      headers: {
+        "Set-Cookie": `auth_token=${token}; HttpOnly; Path=/; Secure=${process.env.NODE_ENV === "production" ? "true" : "false"}; SameSite=Strict; Max-Age=${60 * 60}`
+      },
+    }
+  );
 }
