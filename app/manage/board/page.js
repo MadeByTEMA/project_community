@@ -10,7 +10,7 @@ export default function ManageBoardPage() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/board/manage", {
+    const res = await fetch("/api/manage/board", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -57,7 +57,7 @@ export default function CheckPage() {
         <button onClick={() => navigate('/admin/board')} style={{ marginRight: '10px' }}>
           Admin
         </button>
-        <button onClick={() => navigate('/board/manage')} style={{ marginRight: '10px' }}>
+        <button onClick={() => navigate('/manage/board')} style={{ marginRight: '10px' }}>
           Manage
         </button>
         <button onClick={() => navigate('/board')}>
