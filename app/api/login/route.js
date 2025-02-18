@@ -1,15 +1,19 @@
-import pool from '@/lib/db';
+import { executeQuery } from '@/lib/db';
+import { getUserByIdAndPassword } from '@/queries/users';
 import jwt from 'jsonwebtoken';
 import { withLogging } from "@/lib/withLogging";
 import { withErrorHandling } from "@/lib/withErrorHandling";
 
 export async function handler(req) {
   const { id, password } = await req.json();
-  const [ user ] = await pool.query('SELECT * FROM users WHERE id = ? AND password = ?', [id, password]);
-    
+
+  // 쿼리 실행
+  const user = await executeQuery(getUserByIdAndPassword, [id, password]);
+
   if (user.length === 0) {
     return new Response(JSON.stringify({ error: 'Invalid credentials' }), { status: 401 });
   }
+
   const token = jwt.sign(
     {
       sub: user[0].id,
@@ -24,12 +28,11 @@ export async function handler(req) {
   );
 
   return new Response(JSON.stringify({ token }), {
-      status: 200,
-      headers: {
-        "Set-Cookie": `auth_token=${token}; HttpOnly; Path=/; Secure=${process.env.NODE_ENV === "production" ? "true" : "false"}; SameSite=Strict; Max-Age=${60 * 60}`
-      },
-    }
-  );
+    status: 200,
+    headers: {
+      "Set-Cookie": `auth_token=${token}; HttpOnly; Path=/; Secure=${process.env.NODE_ENV === "production" ? "true" : "false"}; SameSite=Strict; Max-Age=${60 * 60}`
+    },
+  });
 }
 
 export const GET = withLogging(withErrorHandling(handler));
