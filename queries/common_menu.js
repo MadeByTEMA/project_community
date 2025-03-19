@@ -1,42 +1,42 @@
 export const insertCommonMenu = `
   INSERT INTO common_menu (
-    MENU_ID, MENU_NAME, UPPER_MENU_ID, BOARD_ID, MENU_URL, 
-    USE_YN, DEPTH, REG_DTTM, REG_USER
+    menu_id, menu_name, upper_menu_id, board_id, menu_url, 
+    is_active, depth, REG_DTTM, REG_USER
   ) VALUES (?, ?, ?, ?, ?, 'Y', ?, SYSDATE, ?);
 `;
 
 export const getAllCommonMenus = `
-  SELECT * FROM common_menu WHERE USE_YN = 'Y' ORDER BY DEPTH, MENU_ID;
+  SELECT * FROM common_menu WHERE is_active = 1 ORDER BY depth, menu_id;
 `;
 
 export const getCommonMenuById = `
-  SELECT * FROM common_menu WHERE MENU_ID = ? AND USE_YN = 'Y';
+  SELECT * FROM common_menu WHERE menu_id = ? AND is_active = 1;
 `;
 
 export const getCommonMenusByUpperMenuId = `
-  SELECT * FROM common_menu WHERE UPPER_MENU_ID = ? AND USE_YN = 'Y' ORDER BY MENU_ID;
+  SELECT * FROM common_menu WHERE upper_menu_id = ? AND is_active = 1 ORDER BY menu_id;
 `;
 
 export const getCommonMenusByDepth = `
-  SELECT * FROM common_menu WHERE DEPTH = ? AND USE_YN = 'Y' ORDER BY MENU_ID;
+  SELECT * FROM common_menu WHERE depth = ? AND is_active = 1 ORDER BY menu_id;
 `;
 
 export const getCommonMenusWithBoard = `
-  SELECT * FROM common_menu WHERE BOARD_ID IS NOT NULL AND USE_YN = 'Y';
+  SELECT * FROM common_menu WHERE board_id IS NOT NULL AND is_active = 1;
 `;
 
 export const updateCommonMenu = `
   UPDATE common_menu 
-  SET MENU_NAME = ?, MENU_URL = ?, USE_YN = ?, UPDT_DTTM = SYSDATE, UPDT_USER = ?
-  WHERE MENU_ID = ?;
+  SET menu_name = ?, menu_url = ?, is_active = ?, updated_at = SYSDATE, updated_by = ?
+  WHERE menu_id = ?;
 `;
 
 export const deleteCommonMenu = `
   UPDATE common_menu 
-  SET USE_YN = 'N'
-  WHERE MENU_ID = ?;
+  SET is_active = 'N', updated_at = SYSDATE, updated_by = ?
+  WHERE menu_id = ?;
 `;
 
 export const permanentlyDeleteCommonMenu = `
-  DELETE FROM common_menu WHERE MENU_ID = ?;
+  DELETE FROM common_menu WHERE menu_id = ?;
 `;
